@@ -1,23 +1,20 @@
 
     
-    
+    //load required modules
     var express = require('express'),
     router = express.Router(),
     mongoose = require('mongoose'),
-    Newdoc = mongoose.model('documents');
+    documents = mongoose.model('documents'); //here
+     
     
-  
-  
-  
   module.exports = function (app, config) {
       app.use('/api', router);
       
-     
-      router.get('/documents', function (req, res, next){
-          
+     //Get api
+      router.get('/tests', function (req, res, next){
       console.log('Get all documents', 'verbose');
           
-      var query = Newdoc.find().then(result => {
+      var query = documents.find().then(result => { //here
           
       if(result && result.length) {
           
@@ -28,7 +25,7 @@
       res.status(404).json({message: "No documents"});
           
       }
-          
+   
       })
           
       .catch(err => {
@@ -41,11 +38,11 @@
   
   
     
-  
-      router.post('/documents', function(req, res, next){
-          console.log('Create document'  , 'verbose');
-          var newdoc = new Newdoc(req.body);
-          newdoc.save()
+      //post api
+      router.post('/test', function(req, res, next){  
+        console.log('Create document'  , 'verbose');
+          var Test = new documents(req.body); //here
+          Test.save()
           .then(result => {
               res.status(201).json(result);
           })
