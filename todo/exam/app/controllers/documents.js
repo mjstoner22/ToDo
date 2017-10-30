@@ -11,7 +11,7 @@
       app.use('/api', router);
       
      //Get api
-      router.get('/tests', function (req, res, next){
+      router.get('/documents', function (req, res, next){
       console.log('Get all documents', 'verbose');
           
       var query = documents.find().then(result => { //here
@@ -39,7 +39,7 @@
   
     
       //post api
-      router.post('/test', function(req, res, next){  
+      router.post('/documents', function(req, res, next){  
         console.log('Create document'  , 'verbose');
           var Test = new documents(req.body); //here
           Test.save()
