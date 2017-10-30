@@ -1,3 +1,4 @@
+//load required modules
 var express = require('express');
 var bodyParser = require('body-parser');
 
@@ -7,6 +8,7 @@ var glob = require('glob');
 
 module.exports = function (app, config) {
 
+  //connect to database with mongoose
 mongoose.Promise = require('bluebird');
 mongoose.connect(config.db, {useMongoClient: true});
 var db = mongoose.connection;
@@ -24,16 +26,19 @@ db.on('error', function () {
      next();
     });
 
+    //use body parser to parse data for post use
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({
       extended: true
     }));
 
+//loading models
     var models = glob.sync(config.root + '/app/models/*.js');
    models.forEach(function (model) {
      require(model);
    });
-  
+
+  //loading controllers
   var controllers = glob.sync(config.root + '/app/controllers/*.js');
    controllers.forEach(function (controller) {
     require(controller)(app, config);
@@ -41,6 +46,7 @@ db.on('error', function () {
 
    app.use(express.static(config.root + '/public'));
   
+  //error handlers
     app.use(function (req, res) {
       res.type('text/plan');
       res.status(404);

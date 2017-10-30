@@ -1,3 +1,4 @@
+//create server through express
 var express = require('express'),
 config = require('./config/config');    
 
